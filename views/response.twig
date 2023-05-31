@@ -1,0 +1,69 @@
+{% extends "layout.twig" %}
+
+{% set title = gateway.name~": Response" %}
+{% block content %}
+
+    {% if response.isSuccessful() %}
+        <div class="alert alert-success">Congratulations, your request was successful!</div>
+    {% elseif response.isRedirect() %}
+        <div class="alert alert-info">Your request requires {{ response.redirectMethod }}
+        redirect to an off-site payment page.</div>
+
+        {% if response.redirectMethod == "GET" %}
+            <p><a href="{{ response.redirectUrl }}" class="btn btn-success">Redirect Now</a></p>
+        {% elseif response.redirectMethod == "POST" %}
+            <form method="POST" action="{{ response.redirectUrl }}">
+                <p>
+                    {% for key, value in response.redirectData %}
+                        <input type="hidden" name="{{ key }}" value="{{ value }}" />
+                    {% endfor %}
+
+                    <button class="btn btn-success">Redirect Now</button>
+                </p>
+            </form>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-error">Sorry, your request failed.</div>
+    {% endif %}
+
+    <p>The response object had the following to say:</p>
+
+    <p><b>$response->isSuccessful()</b></p>
+    <pre>{{ response.isSuccessful() ? "true" : "false" }}</pre>
+
+    <p><b>$response->isRedirect()</b></p>
+    <pre>{{ response.isRedirect() ? "true" : "false" }}</pre>
+
+    {% if response.redirectUrl is defined %}
+        <p><b>$response->getRedirectUrl()</b></p>
+        <pre>{{ response.redirectUrl }}</pre>
+    {% endif %}
+
+    {% if response.redirectMethod is defined %}
+        <p><b>$response->getRedirectMethod()</b></p>
+        <pre>{{ response.redirectMethod }}</pre>
+    {% endif %}
+
+    {% if response.redirectData is defined %}
+        <p><b>$response->getRedirectData()</b></p>
+        <pre>{{ response.redirectData|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+    {% endif %}
+
+    <p><b>$response->getMessage()</b></p>
+    <pre>{{ response.message }}</pre>
+
+    <p><b>$response->getCode()</b></p>
+    <pre>{{ response.code }}</pre>
+
+    <p><b>$response->getTransactionReference()</b></p>
+    <pre>{{ response.transactionReference }}</pre>
+
+    {% if response.cardReference is defined %}
+        <p><b>$response->getCardReference()</b></p>
+        <pre>{{ response.cardReference|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+    {% endif %}
+
+    <p><b>$response->getData()</b></p>
+    <pre>{{ response.data|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+
+{% endblock %}
