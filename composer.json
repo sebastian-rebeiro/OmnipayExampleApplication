@@ -1,0 +1,29 @@
+{
+    "name": "sebastian/omnipay-ex",
+    "description": "Modern port of omnipay with twig",
+    "type": "project",
+    "authors": [
+        {
+            "name": "sebastian-rebeiro",
+            "email": "96997159+sebastian-rebeiro@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.0",
+        "slim/twig-view": "^3.3",
+        "league/omnipay": "^3.2",
+        "omnipay/paypal": "^3.0",
+        "omnipay/dummy": "^3.0",
+        "omnipay/mollie": "^5.5",
+        "omnipay/stripe": "^3.2",
+        "nyholm/psr7": "^1.8",
+        "php-http/message": "^1.16",
+        "php-http/message-factory": "^1.1",
+        "odan/session": "^6.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
